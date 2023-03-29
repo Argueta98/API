@@ -1,6 +1,6 @@
 const { response, request } = require("express");
-const allowedCollections = ["user", "category", "role", "product"];
-const { User, Product, Role, Category } = require("../models");
+const allowedCollections = ["user", "category", "role", "product", "invoice"]; //agregue
+const { User, Product, Role, Category, Invoice } = require("../models");
 
 const { ObjectId } = require("mongoose").Types;
 
@@ -16,6 +16,19 @@ const findUsers = async (term = "", res = response) => {
     $and: [{ status: true }],
   });
   return res.json({ results: users });
+};
+
+//aqui modifque
+
+const finInvoices = async (term = "", res = response) => {
+  const isMongoId = ObjectId.isValid(term);
+  if(isMongoId){
+    const invoice = await Invoice.findById(term);
+    return res.json({ results: invoice ? [invoice] : []});
+  }
+  const regex = new RegExp(term, "i");
+  const invoices = await  Invoice.find({ user: regex, total: regex });
+  return res.json({results: invoices});
 };
 
 const findCategories = async (term = "", res = response) => {
@@ -60,6 +73,9 @@ const find = (req, res = response) => {
       break;
     case "category":
       findCategories(term, res);
+      break;
+    case "invoice": //ara
+      finInvoices(term, res);
       break;
     case "role":
       break;
