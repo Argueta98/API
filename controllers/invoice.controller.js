@@ -1,7 +1,7 @@
 const { response, request } = require("express");
 const { Invoice } = require("../models");
 
-const getInvoice = async (req, res = response) => {
+const getInvoice = async (req, res = response) => { ///Busqueda
   const { limit = 5, from = 0 } = req.query;
   const query = { status: true };
   const [invoice] = await Promise.all([
@@ -21,7 +21,7 @@ const getInvoice = async (req, res = response) => {
 
 //part 2
 
-const getInvoiceById = async (req = request, res = response) => {
+const getInvoiceById = async (req = request, res = response) => { //Busqueda por medio del id
   const { id } = req.params;
   const invoice = await Invoice.findById(id)
     .populate("user", "name")
@@ -32,15 +32,15 @@ const getInvoiceById = async (req = request, res = response) => {
 
 //part 3
 
-const createInvoice = async (req, res = response) => {
+const createInvoice = async (req, res = response) => { // POST Eenviar datos
   const { status, user, ...body } = req.body;
 
   const invoiceDB = await Invoice.findOne({ name: body.name });
 
-  if (invoiceDB)
+/*  if (invoiceDB)
     return res
       .status(400)
-      .json({ msg: `the invoice ${invoiceDB.name} already exists` });
+      .json({ msg: `the invoice ${invoiceDB.name} already exists` });*/
 
   const data = {
     ...body,
@@ -55,7 +55,7 @@ const createInvoice = async (req, res = response) => {
 
  //part 4
 
-const updateInvoice = async (req, res) => {
+const updateInvoice = async (req, res) => { //Actualizar datos PUT
   const { id } = req.params;
   const { status, user, ...data } = req.body;
 
@@ -69,7 +69,7 @@ const updateInvoice = async (req, res) => {
 
 //part 5
 
-const deleteInvoice= async (req, res) => {
+const deleteInvoice= async (req, res) => { //Eliminar
   const { id } = req.params;
   const deletedInvoice = await Invoice.findByIdAndUpdate(
     id,
@@ -79,7 +79,7 @@ const deleteInvoice= async (req, res) => {
   res.json(deletedInvoice);
 };
 
-module.exports = {
+module.exports = { //Export
   getInvoice,
   getInvoiceById,
   createInvoice,

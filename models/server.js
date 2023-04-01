@@ -16,7 +16,8 @@ class Server {
       product: "/api/products",
       find: "/api/find",
       uploads: "/api/uploads",
-      invoice: "/api/invoices", //aquii
+      invoice: "/api/invoices", //Agregamos el path de ña ruta
+      detailInvoice:"/api/detailInvoices"
       
 
     };
@@ -53,7 +54,8 @@ class Server {
     this.app.use(this.paths.product, require("../routes/product.routes"));
     this.app.use(this.paths.find, require("../routes/find.routes"));
     this.app.use(this.paths.uploads, require("../routes/upload.routes"));
-    this.app.use(this.paths.invoice, require("../routes/invoice.routes"));//aquii
+    this.app.use(this.paths.invoice, require("../routes/invoice.routes"));//Agreamos la referencia al archivo de rutas de invoice
+    this.app.use(this.paths.detailInvoice, require("../routes/detailInvoice.routes"));//Referencia
   }
 
   listen() {

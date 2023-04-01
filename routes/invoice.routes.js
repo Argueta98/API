@@ -19,7 +19,7 @@ const router = Router();
 router.get("/", getInvoice);
 
 //part 1
-router.get(
+router.get( //Nuestro metodo por medio de GET
   "/:id",
   [
     check("id", "is not a mongoID").isMongoId(),
@@ -31,7 +31,7 @@ router.get(
 
 
 //part 2
-router.post(
+router.post( //Enviamos datos por post
   "/",
   [
     check("user", "user is mandatory").not().isEmpty(),
@@ -46,7 +46,7 @@ router.post(
 
 //part 3
 
-router.put( //modifique qui
+router.put( //Es para poder actualizar
   [
     validateJWT,
     check("name", "name is mandatory").not().isEmpty(),
@@ -71,4 +71,4 @@ router.delete(
   deleteInvoice
 );
 
-module.exports = router;
+module.exports = router; //exporta

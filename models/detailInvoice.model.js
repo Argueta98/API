@@ -9,14 +9,19 @@ const DetailInvoiceSchema = Schema({
   },
   product: {
     type: Schema.Types.ObjectId,
-    ref: "Products",
+    ref: "Product",
+    required: true,
+  },
+  invoice: {
+    type: Schema.Types.ObjectId,
+    ref: "Invoice",
     required: true,
   },
   productUnit: {
     type: Number,
     default: 0,
   },
- 
+  
   precioTotal: {
     type: Number,
     default: 0,

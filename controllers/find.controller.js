@@ -1,6 +1,6 @@
 const { response, request } = require("express");
-const allowedCollections = ["user", "category", "role", "product", "invoice"]; //agregue
-const { User, Product, Role, Category, Invoice } = require("../models");
+const allowedCollections = ["user", "category", "role", "product", "invoice", "detailInvoice"]; //agregue
+const { User, Product, Role, Category, Invoice, DetailInvoice } = require("../models");
 
 const { ObjectId } = require("mongoose").Types;
 
@@ -20,8 +20,8 @@ const findUsers = async (term = "", res = response) => {
 
 //aqui modifque
 
-const finInvoices = async (term = "", res = response) => {
-  const isMongoId = ObjectId.isValid(term);
+const findInvoices = async (term = "", res = response) => { //Ques una funcion para busqueda de nuestra ruta y parametrs
+  const isMongoId = ObjectId.isValid(term); 
   if(isMongoId){
     const invoice = await Invoice.findById(term);
     return res.json({ results: invoice ? [invoice] : []});
@@ -30,6 +30,20 @@ const finInvoices = async (term = "", res = response) => {
   const invoices = await  Invoice.find({ user: regex, total: regex });
   return res.json({results: invoices});
 };
+
+
+const findDetailInvoices = async (term = "", res = response) => {
+  const isMongoId = ObjectId.isValid(term);
+  if(isMongoId){
+    const detailInvoice = await DetailInvoice.findById(term);
+    return res.json({ results: detailInvoice ? [detailInvoice] : []});
+  }
+  const regex = new RegExp(term, "i");
+  const detailInvoice = await  DetailInvoice.find({ total: regex });
+  return res.json({results: detailInvoice});
+};
+
+
 
 const findCategories = async (term = "", res = response) => {
   const isMongoId = ObjectId.isValid(term);
@@ -75,7 +89,10 @@ const find = (req, res = response) => {
       findCategories(term, res);
       break;
     case "invoice": //ara
-      finInvoices(term, res);
+      findInvoices(term, res);
+      break;
+    case "detailInvoice": //ara
+      findDetailInvoices(term, res);
       break;
     case "role":
       break;

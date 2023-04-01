@@ -15,7 +15,11 @@ const InvoiceSchema = Schema({
   total: {
     type: Number,
     default: 0,
-  }
+  },
+  purchaseDate: {
+    type: Date,
+    default: Date.now,
+  },
 
 });
 
@@ -24,4 +28,4 @@ InvoiceSchema.methods.toJSON = function () {
   return data;
 };
 
-module.exports = model("Invoice", InvoiceSchema);
+module.exports = model("Invoice", InvoiceSchema); //Exportar
