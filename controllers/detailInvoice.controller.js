@@ -40,16 +40,18 @@ const createDetailInvoice = async (req, res = response) => {
   .populate('product', 'name');
 
   if (existingDetailInvoice) {
-    return res.status(400).json({ msg: `The product ${existingDetailInvoice.product.name} is already in the invoice ${invoice}` });
+    return res.status(400)
+    .json({ msg: `The product ${existingDetailInvoice.product.name} is already in the invoice ${invoice}` }); //Valida si el producto existe en el detalle afactura
   }
 
   if (!productDB)
     return res
       .status(400)
-      .json({ msg: `the product  not already exists` });
+      .json({ msg: `the product  not already exists` }); //Producto no existe
   
   if (productUnit > 7) {
-    return res.status(400).json({ msg: `The maximum number of units is 7` });
+    return res.status(400)
+    .json({ msg: `The maximum number of units is 7` });//La cantidad maxima de productos unitarios  es 7
   }
 
   const precioTotal = productDB.precio * productUnit ;
@@ -118,7 +120,7 @@ const updateDetailInvoice = async (req, res) => {
   detailInvoice.product = product ?? detailInvoice.product;
   detailInvoice.invoice = invoice ?? detailInvoice.invoice;
   detailInvoice.productUnit = productUnit ?? detailInvoice.productUnit;
-  detailInvoice.precioTotal = precioTotal;                           //data.precioTotal ?? detailInvoice.precioTotal;
+  detailInvoice.precioTotal = precioTotal;        //Se inserta la multiplicacion de los productos.                   //data.precioTotal ?? detailInvoice.precioTotal;
 
   await detailInvoice.save();
 
